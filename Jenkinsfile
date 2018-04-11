@@ -5,12 +5,12 @@ pipeline {
             steps {
                 dir ('terraform') {
                     sh '''
-                    terraform get
-                    terraform init
-                    yes | terraform apply
-                    export SG_WEB_DMZ="$(terraform output sg_web_dmz)"
-                    export VPC_ID="$(terraform output vpc-id)"
-                    export VPC_PUBLIC_SUBNET_1="$(terraform output vpc-public-subnet-1)"
+                    /opt/bin/terraform get
+                    /opt/bin/terraform init
+                    yes | /opt/bin/terraform apply
+                    export SG_WEB_DMZ="$(/opt/bin/terraform output sg_web_dmz)"
+                    export VPC_ID="$(/opt/bin/terraform output vpc-id)"
+                    export VPC_PUBLIC_SUBNET_1="$(/opt/bin/terraform output vpc-public-subnet-1)"
                 '''
                 }
             }
@@ -18,7 +18,7 @@ pipeline {
 
         stage ('Packerize') {
             steps {
-                sh 'packer build packer-cis.json'
+                sh '/opt/bin/packer build packer-cis.json'
             }
         }
 

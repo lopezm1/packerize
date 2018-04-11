@@ -28,10 +28,10 @@ Modify the default account information in the ./main.tf file. `provider` and `ba
 cd into the terraform directory
 ```sh
 cd ./terraform/
-terraform get
-terraform init
-terraform plan
-terraform apply
+/opt/bin/terraform get
+/opt/bin/terraform init
+/opt/bin/terraform plan
+/opt/bin/terraform apply
 ```
 
 ### **Packer**
@@ -49,7 +49,7 @@ export VPC_PUBLIC_SUBNET_1="$(terraform output vpc-public-subnet-1)"
 ```
 Head back to root directory. 
 
-`packer build packer-cis.json`
+`/opt/bin/packer build packer-cis.json`
 
 ### **Jenkinsfile**
 
@@ -60,3 +60,6 @@ Create a pipeline in your existing Jenkins box.
 Make sure you have:
 - terraform installed
 - packer installed
+
+`curl https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip --output terraform.zip`
+`unzip terraform.zip`
