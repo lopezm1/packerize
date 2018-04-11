@@ -48,6 +48,7 @@ export VPC_PUBLIC_SUBNET_1="$(terraform output vpc-public-subnet-1)"
 
 ```
 Head back to root directory. 
+
 `packer build packer-cis.json`
 
 ### **Jenkinsfile**
