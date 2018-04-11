@@ -20,11 +20,6 @@ pipeline {
             steps {
                 sh 'packer build packer-cis.json'
             }
-            post {
-                success {
-                    junit '**/target/surefire-reports/**/*.xml'
-                }
-            }
         }
 
         stage ('Test') {
