@@ -2,15 +2,15 @@
 
 _Packer version: 1.2.2, Terraform v0.11.5_
 
-Create the bare mininum VPC needed in order to create a new AMI with packer. Destroy the VPC after the AMI was created.
+Create a VPC with the bare minimum needed in order to create a new AMI with packer. Destroy the VPC after the AMI has been created.
 
-Useful for environments that had their default VPC deleted and only need a small VPC for the lifecycle of packing. 
+Useful for environments that have their default VPC deleted. Only uses the VPC for the lifecycle of packing.
 
 ### **Requirements**
 
-`brew install terraform`
-`brew install packer`
-Free tier AWS account or access to create a VPC
+- `brew install terraform`
+- `brew install packer`
+-  Free tier AWS account or access to create a VPC
 
 ### **Terraform**
 *Manual steps, skip to Jenkinsfile for full automation*
@@ -35,9 +35,9 @@ terraform apply
 ```
 
 ### **Packer**
-
-Package your AMI
 *Manual steps, skip to Jenkinsfile for full automation*
+
+Package your AMI.
 
 cd into the terraform directory
 ```sh
@@ -49,7 +49,6 @@ export VPC_PUBLIC_SUBNET_1="$(terraform output vpc-public-subnet-1)"
 ```
 Head back to root directory. 
 `packer build packer-cis.json`
-```
 
 ### **Jenkinsfile**
 
