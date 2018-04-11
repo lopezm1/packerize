@@ -22,6 +22,16 @@ pipeline {
             }
         }
 
+        stage ('Delete VPC') {
+            steps {
+                dir ('terraform') {
+                    sh '''
+                    yes | /opt/bin/terraform destroy
+                '''
+                }
+            }
+        }
+
         stage ('Test') {
             steps {
                 sh 'echo "Add test scripts for AMI and VPC deletion here."'
