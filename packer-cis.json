@@ -2,15 +2,18 @@
   "variables": {
     "vpc": "{{env `VPC_ID`}}",
     "subnet": "{{env `VPC_PUBLIC_SUBNET_1`}}",
-    "aws_region": "us-east-2",
     "ami_name": "gold-ami-{{timestamp}}",
-    "security_group": "{{env `SG_WEB_DMZ`}}"
+    "security_group": "{{env `SG_WEB_DMZ`}}",
+    "aws_region": "{{env `AWS_DEFAULT_REGION`}}",
+    "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+    "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
   },
   "builders": [{
     "name": "AWS AMI Builder - CIS",
-    "profile": "personal",
-    "type": "amazon-ebs",
     "region": "{{user `aws_region`}}",
+    "access_key": "{{user `access_key`}}",
+    "secret_key": "{{user `secret_key`}}",
+    "type": "amazon-ebs",
     "source_ami_filter": {
       "filters": {
           "virtualization-type": "hvm",
