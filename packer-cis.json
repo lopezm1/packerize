@@ -21,8 +21,8 @@
           "root-device-type": "ebs"
       },
       "owners": ["137112412989", "591542846629", "801119661308",
-                 "102837901569", "013907871322", "206029621532", 
-                 "286198878708", "443319210888"],
+        "102837901569", "013907871322", "206029621532",
+        "286198878708", "443319210888"],
       "most_recent": true
     },
     "instance_type": "t2.micro",
@@ -36,5 +36,17 @@
     "associate_public_ip_address": "true",
     "vpc_id": "{{user `vpc`}}",
     "subnet_id": "{{user `subnet`}}"
-  }]
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo yum -y install ruby wget jq;",
+        "sudo wget https://aws-codedeploy-{{user `aws_region`}}.s3.amazonaws.com/latest/install;",
+        "sudo chmod +x ./install;",
+        "sudo ./install auto;",
+        "rm ./install"
+      ]
+    }
+  ]
 }

@@ -1,19 +1,19 @@
 data "aws_availability_zones" "all" {}
 
-resource "aws_vpc" "sample-cloud-vpc" {
+resource "aws_vpc" "sample_cloud_vpc" {
   cidr_block                       = "10.0.0.0/16"
   assign_generated_ipv6_cidr_block = true
   instance_tenancy                 = "default"
 
   tags {
-    Name = "sample-cloud-vpc"
+    Name = "packerize-vpc"
   }
 }
 
-resource "aws_subnet" "vpc-public-subnet-1" {
+resource "aws_subnet" "vpc_public_subnet_1" {
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "${data.aws_availability_zones.all.names[0]}"
-  vpc_id                  = "${aws_vpc.sample-cloud-vpc.id}"
+  vpc_id                  = "${aws_vpc.sample_cloud_vpc.id}"
   map_public_ip_on_launch = true
 
   tags {
@@ -21,40 +21,40 @@ resource "aws_subnet" "vpc-public-subnet-1" {
   }
 }
 
-resource "aws_internet_gateway" "vpc-igw" {
-  vpc_id = "${aws_vpc.sample-cloud-vpc.id}"
+resource "aws_internet_gateway" "vpc_igw" {
+  vpc_id = "${aws_vpc.sample_cloud_vpc.id}"
 
   tags {
-    Name = "sample-cloud-igw"
+    Name = "packerize-igw"
   }
 }
 
 resource "aws_route_table" "vpc-public-route-table" {
-  vpc_id = "${aws_vpc.sample-cloud-vpc.id}"
+  vpc_id = "${aws_vpc.sample_cloud_vpc.id}"
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.vpc-igw.id}"
+    gateway_id = "${aws_internet_gateway.vpc_igw.id}"
   }
 
   route {
     ipv6_cidr_block = "::/0"
-    gateway_id      = "${aws_internet_gateway.vpc-igw.id}"
+    gateway_id      = "${aws_internet_gateway.vpc_igw.id}"
   }
 
   tags {
-    Name = "sample-cloud-public-table"
+    Name = "packerize-public-table"
   }
 }
 
 resource "aws_route_table_association" "public-subnet-1-assoc" {
   route_table_id = "${aws_route_table.vpc-public-route-table.id}"
-  subnet_id      = "${aws_subnet.vpc-public-subnet-1.id}"
+  subnet_id      = "${aws_subnet.vpc_public_subnet_1.id}"
 }
 
 resource "aws_security_group" "sg_web_dmz" {
   name   = "sg_web_dmz"
-  vpc_id = "${aws_vpc.sample-cloud-vpc.id}"
+  vpc_id = "${aws_vpc.sample_cloud_vpc.id}"
 
   ingress {
     from_port   = "22"

@@ -13,7 +13,7 @@ pipeline {
     }
 
     stages {
-        stage ('Initialize VPC') {
+        stage ('Create VPC & Packerize') {
             steps {
                 dir('terraform'){
                     sh """
@@ -23,19 +23,12 @@ pipeline {
                     /opt/bin/terraform --version
                     /opt/bin/terraform init
                     /opt/bin/terraform plan --out=plan.out
+                    export VPC_ID=$(terraform output vpc_id)
+                    export VPC_PUBLIC_SUBNET_1=$(terraform output vpc_public_subnet_1)
+                    export SG_WEB_DMZ=$(terraform output sg_web_dmz)
+                    /opt/bin/packer build ../packer-cis.json
                     """
                 }
-            }
-        }
-
-        stage ('Packer') {
-            steps {
-                sh """
-                export AWS_SECRET_ACCESS_KEY=${env.SECRET_ACCESS_KEY}
-                export AWS_ACCESS_KEY_ID=${env.ACCESS_KEY_ID}
-                export AWS_DEFAULT_REGION=${REGION}
-                /opt/bin/packer build packer-cis.json
-                """
             }
         }
 
