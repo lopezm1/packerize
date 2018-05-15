@@ -39,11 +39,18 @@ resource "aws_codebuild_project" "packerize_codebuild" {
   service_role = "${aws_iam_role.packerize_service_role.arn}"
 
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "S3"
+    location = "${aws_s3_bucket.packerize_bucket.bucket}"
   }
 
   cache {
     type = "NO_CACHE"
+  }
+
+  vpc_config {
+    security_group_ids = ["${data.terraform_remote_state.packer_vpc.sg_internal_network}"]
+    subnets = ["${data.terraform_remote_state.packer_vpc.vpc_private_subnet_1}"]
+    vpc_id = "${data.terraform_remote_state.packer_vpc.vpc_id}"
   }
 
   environment {
@@ -74,5 +81,18 @@ resource "aws_codebuild_project" "packerize_codebuild" {
 
   tags {
     "Name" = "Packerize_build"
+  }
+}
+
+#--------------------------------------------------------------
+# Packerize S3 Artifacts
+#--------------------------------------------------------------
+
+resource "aws_s3_bucket" "packerize_bucket" {
+  bucket = "packerize-bucket"
+  acl    = "private"
+
+  tags {
+    Name = "packerize-bucket"
   }
 }

@@ -52,4 +52,22 @@ data "aws_iam_policy_document" "code_build_access_document" {
       "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/codebuild/${aws_codebuild_project.packerize_codebuild.name}:*",
     ]
   }
+
+  statement {
+    sid = "CodeBuildToVPC"
+
+    actions = [
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeSubnets",
+      "ec2:CreateNetworkInterface",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DescribeDhcpOptions",
+      "ec2:*"
+    ]
+
+    resources = [
+      "*"
+    ]
+  }
 }

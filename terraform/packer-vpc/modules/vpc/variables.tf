@@ -9,3 +9,7 @@ variable "vpc_cidr_block" {
 variable "public_subnet_1_cidr_block" {
   description = "CIDR block - public subnet 1"
 }
+
+variable "private_subnet_1_cidr_block" {
+  description = "CIDR block - private subnet 1"
+}
