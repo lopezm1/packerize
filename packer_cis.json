@@ -1,0 +1,49 @@
+{
+  "variables": {
+    "vpc": "{{env `VPC_ID`}}",
+    "subnet": "{{env `VPC_PUBLIC_SUBNET_1`}}",
+    "ami_name": "gold-ami-{{timestamp}}",
+    "security_group": "{{env `SG_WEB_DMZ`}}"
+  },
+  "builders": [{
+    "name": "AWS AMI Builder - CIS",
+    "region": "{{user `aws_region`}}",
+    "access_key": "{{user `access_key`}}",
+    "secret_key": "{{user `secret_key`}}",
+    "type": "amazon-ebs",
+    "source_ami_filter": {
+      "filters": {
+          "virtualization-type": "hvm",
+          "name": "amzn-ami*-ebs",
+          "root-device-type": "ebs"
+      },
+      "owners": ["137112412989", "591542846629", "801119661308",
+        "102837901569", "013907871322", "206029621532",
+        "286198878708", "443319210888"],
+      "most_recent": true
+    },
+    "instance_type": "t2.micro",
+    "ssh_username": "ec2-user",
+    "ami_name": "{{user `ami_name` | clean_ami_name}}",
+    "tags": {
+      "Name": "gold-ami-{{timestamp}}"
+    },
+    "security_group_ids": ["{{user `security_group`}}"],
+    "ami_description": "Create base AMI image with packer",
+    "associate_public_ip_address": "true",
+    "vpc_id": "{{user `vpc`}}",
+    "subnet_id": "{{user `subnet`}}"
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo yum -y install ruby wget jq;",
+        "sudo wget https://aws-codedeploy-{{user `aws_region`}}.s3.amazonaws.com/latest/install;",
+        "sudo chmod +x ./install;",
+        "sudo ./install auto;",
+        "rm ./install"
+      ]
+    }
+  ]
+}
