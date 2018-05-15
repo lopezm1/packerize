@@ -3,10 +3,7 @@
     "vpc": "{{env `VPC_ID`}}",
     "subnet": "{{env `VPC_PUBLIC_SUBNET_1`}}",
     "ami_name": "gold-ami-{{timestamp}}",
-    "security_group": "{{env `SG_WEB_DMZ`}}",
-    "aws_region": "{{env `AWS_DEFAULT_REGION`}}",
-    "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
-    "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
+    "security_group": "{{env `SG_WEB_DMZ`}}"
   },
   "builders": [{
     "name": "AWS AMI Builder - CIS",

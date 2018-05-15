@@ -7,5 +7,5 @@ output "sg_web_dmz" {
 }
 
 output "vpc_id" {
-  value = "${aws_vpc.sample_cloud_vpc.id}"
+  value = "${aws_vpc.basic_vpc.id}"
 }
