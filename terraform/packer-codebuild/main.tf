@@ -96,3 +96,29 @@ resource "aws_s3_bucket" "packerize_bucket" {
     Name = "packerize-bucket"
   }
 }
+
+#--------------------------------------------------------------
+# Packerize CloudWatch Events - moved to serverless.yml
+#--------------------------------------------------------------
+/*
+resource "aws_cloudwatch_event_target" "cloudwatch_event_to_lambda" {
+  target_id = "SendToSlackLambda"
+  rule      = "${aws_cloudwatch_event_rule.packerize_cloudwatch_event.name}"
+  arn       = "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:packerize-dev-slack"
+}
+
+resource "aws_cloudwatch_event_rule" "packerize_cloudwatch_event" {
+  name        = "packerize-cloudwatch-event"
+  description = "Sends a cloudwatch event to a lambda function"
+
+  event_pattern = <<PATTERN
+{
+  "source": [ "aws.codebuild" ],
+  "detail-type": [ "CodeBuild Status Report" ],
+  "detail": {
+    "project-name": [ ${aws_codebuild_project.packerize_codebuild.name} ]
+    "build-status": [ "IN_PROGRESS", "SUCCEEDED", "FAILED", "STOPPED" ]
+  }
+}
+PATTERN
+}*/
