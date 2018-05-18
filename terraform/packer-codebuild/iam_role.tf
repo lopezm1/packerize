@@ -70,4 +70,16 @@ data "aws_iam_policy_document" "code_build_access_document" {
       "*"
     ]
   }
+
+  statement {
+    sid = "CodeBuildToCloudWatch"
+
+    actions = [
+      "events:PutEvents"
+    ]
+
+    resources = [
+      "*"
+    ]
+  }
 }
