@@ -32,3 +32,4 @@ functions:
                 - 'SUCCEEDED'
                 - 'FAILED'
                 - 'STOPPED'
+                - 'Created'

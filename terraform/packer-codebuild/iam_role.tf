@@ -82,4 +82,20 @@ data "aws_iam_policy_document" "code_build_access_document" {
       "*"
     ]
   }
+
+  statement {
+    sid = "CodeBuildToS3"
+
+    actions = [
+      "s3:PutObject",
+      "s3:GetBucketVersioning",
+      "s3:GetObjectVersion",
+      "s3:GetObject"
+    ]
+
+    resources = [
+      "${aws_s3_bucket.packerize_bucket.arn}",
+      "${aws_s3_bucket.packerize_bucket.arn}/*"
+    ]
+  }
 }

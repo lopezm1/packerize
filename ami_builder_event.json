@@ -1,8 +1,8 @@
 [
   {
-    "Source": "com.ami.builder",
-    "DetailType": "AmiBuilder",
-    "Detail": "{ \"AmiStatus\": \"Created\"}",
+    "Source": "aws.codebuild",
+    "DetailType": "CodeBuild Status Report",
+    "Detail": "{ \"build-status\": \"Created\"}",
     "Resources": [ "<<AMI-ID>>" ]
   }
 ]
