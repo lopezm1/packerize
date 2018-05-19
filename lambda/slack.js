@@ -62,6 +62,10 @@ functions.handler = function(event, context) {
         text += '\n';
         text += 'https://console.aws.amazon.com/cloudwatch/home?region='+event.region+'#logEventViewer:group=/aws/codebuild/'+project+';start=PT5M';
     }
+    if (status === 'AmiCreated'){
+        text += '\n';
+        text += 'ami-id:' + event.resources['ami'];
+    }
 
     const SLACK_HOOK_URL = process.env.SLACK_HOOK_URL;
     functions.slack(text, SLACK_HOOK_URL, function(err, results) {

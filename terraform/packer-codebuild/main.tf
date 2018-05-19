@@ -33,7 +33,7 @@ data "terraform_remote_state" "packer_vpc" {
 #--------------------------------------------------------------
 
 resource "aws_codebuild_project" "packerize_codebuild" {
-  name         = "Packerize_build"
+  name         = "${var.packer_codebuild}"
   description  = "Automate AMI patching with Packer and Terraform"
   build_timeout      = "5"
   service_role = "${aws_iam_role.packerize_service_role.arn}"
@@ -71,6 +71,11 @@ resource "aws_codebuild_project" "packerize_codebuild" {
     environment_variable {
       "name"  = "VPC_PUBLIC_SUBNET_1"
       "value" = "${data.terraform_remote_state.packer_vpc.vpc_public_subnet_1}"
+    }
+
+    environment_variable {
+      "name"  = "BUILD_PROJECT"
+      "value" = "${var.packer_codebuild}"
     }
   }
 

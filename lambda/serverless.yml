@@ -11,6 +11,9 @@ provider:
   versionFunctions: false
   logRetentionInDays: 30
 
+  environment:
+      SLACK_HOOK_URL: ${ssm:/slack-hook-url}
+
 functions:
   slack:
     handler: slack.handler
@@ -23,7 +26,7 @@ functions:
             source:
               - "aws.codebuild"
             detail-type:
-              - "CodeBuild Status Report"
+              - "CodeBuild Build State Change"
             detail:
               project-name:
                 - 'Packerize_build'
@@ -32,4 +35,15 @@ functions:
                 - 'SUCCEEDED'
                 - 'FAILED'
                 - 'STOPPED'
-                - 'Created'
+      - cloudwatchEvent:
+          name: 'BuildResultsToLambda'
+          event:
+            source:
+              - "aws.codebuild"
+            detail-type:
+              - "CodeBuild Status Report"
+            detail:
+              project-name:
+                - 'Packerize_build'
+              build-status:
+                - 'AmiCreated'
