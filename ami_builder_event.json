@@ -1,8 +1,8 @@
 [
   {
-    "source": "aws.codebuild",
-    "detail-type": "CodeBuild Status Report",
-    "detail": "{ \"project-name\": [\"<<CB-PROJ>>\"], \"build-status\": [\"AmiCreated\"]}",
-    "resources": "{ \"ami\": \"<<AMI-ID>>\" }"
+    "Source": "aws.codebuild",
+    "DetailType": "CodeBuild Status Report",
+    "Detail": "{ \"project-name\": [\"<<CB-PROJ>>\"], \"build-status\": [\"AmiCreated\"]}",
+    "Resources": "{ \"ami\": \"<<AMI-ID>>\" }"
   }
 ]
