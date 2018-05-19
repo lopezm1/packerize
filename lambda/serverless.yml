@@ -39,7 +39,7 @@ functions:
           name: 'BuildResultsToLambda'
           event:
             source:
-              - "aws.codebuild"
+              - "com.ami.builder"
             detail-type:
               - "CodeBuild Status Report"
             detail:
