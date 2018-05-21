@@ -64,7 +64,7 @@ functions.handler = function(event, context) {
     }
     if (status === 'AmiCreated'){
         text += '\n';
-        text += 'ami-id:' + event.resources;
+        text += 'ami-id:'+event['resources'];
     }
 
     const SLACK_HOOK_URL = process.env.SLACK_HOOK_URL;
