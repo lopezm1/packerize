@@ -2,7 +2,7 @@
   {
     "Source": "com.ami.builder",
     "DetailType": "CodeBuild Status Report",
-    "Detail": "{ \"project-name\": [\"<<CB-PROJ>>\"], \"build-status\": [\"AmiCreated\"]}",
+    "Detail": "{ \"project-name\": \"<<CB-PROJ>>\", \"build-status\": \"AmiCreated\"}",
     "Resources": [ "<<AMI-ID>>" ]
   }
 ]

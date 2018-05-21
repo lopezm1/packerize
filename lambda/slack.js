@@ -58,11 +58,11 @@ functions.handler = function(event, context) {
 
     // If failed.  Get logs path.
     var text = project+' '+status;
+    console.log('STATUS:' + status)
     if (status === 'FAILED') {
         text += '\n';
         text += 'https://console.aws.amazon.com/cloudwatch/home?region='+event.region+'#logEventViewer:group=/aws/codebuild/'+project+';start=PT5M';
-    }
-    if (status === 'AmiCreated'){
+    } else if (status === 'AmiCreated') {
         console.log("enters AmiCreated")
         text += '\n';
         text += 'ami-id:'+event['resources'];
