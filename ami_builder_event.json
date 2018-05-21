@@ -3,6 +3,6 @@
     "Source": "com.ami.builder",
     "DetailType": "CodeBuild Status Report",
     "Detail": "{ \"project-name\": [\"<<CB-PROJ>>\"], \"build-status\": [\"AmiCreated\"]}",
-    "Resources": [ "{ \"ami\": \"<<AMI-ID>>\" }" ]
+    "Resources": [ "<<AMI-ID>>" ]
   }
 ]
