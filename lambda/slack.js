@@ -63,6 +63,7 @@ functions.handler = function(event, context) {
         text += 'https://console.aws.amazon.com/cloudwatch/home?region='+event.region+'#logEventViewer:group=/aws/codebuild/'+project+';start=PT5M';
     }
     if (status === 'AmiCreated'){
+        console.log("enters AmiCreated")
         text += '\n';
         text += 'ami-id:'+event['resources'];
     }
