@@ -45,6 +45,7 @@ data "aws_iam_policy_document" "code_build_access_document" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
+      "logs:DeleteLogGroup",
     ]
 
     resources = [
@@ -54,20 +55,64 @@ data "aws_iam_policy_document" "code_build_access_document" {
   }
 
   statement {
-    sid = "CodeBuildToVPC"
+    sid = "CodeBuildToLogs"
 
     actions = [
-      "ec2:DescribeSecurityGroups",
-      "ec2:DescribeSubnets",
-      "ec2:CreateNetworkInterface",
-      "ec2:DescribeNetworkInterfaces",
-      "ec2:DeleteNetworkInterface",
-      "ec2:DescribeDhcpOptions",
-      "ec2:*"
+      "logs:DescribeLogGroups",
     ]
 
     resources = [
-      "*"
+      "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group::log-stream:*",
+    ]
+  }
+
+  statement {
+    sid = "CodeBuildToVPC"
+
+    actions = [
+      "ec2:AttachVolume",
+      "ec2:AuthorizeSecurityGroupIngress",
+      "ec2:CopyImage",
+      "ec2:CreateImage",
+      "ec2:CreateKeypair",
+      "ec2:CreateNetworkInterface",
+      "ec2:CreateNetworkInterfacePermission",
+      "ec2:CreateSecurityGroup",
+      "ec2:CreateSnapshot",
+      "ec2:CreateTags",
+      "ec2:CreateVolume",
+      "ec2:DeleteKeyPair",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DeleteSecurityGroup",
+      "ec2:DeleteSnapshot",
+      "ec2:DeleteVolume",
+      "ec2:DeregisterImage",
+      "ec2:DescribeDhcpOptions",
+      "ec2:DescribeKeyPairs",
+      "ec2:DescribeImageAttribute",
+      "ec2:DescribeImages",
+      "ec2:DescribeInstances",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DescribeRegions",
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeSnapshots",
+      "ec2:DescribeSubnets",
+      "ec2:DescribeTags",
+      "ec2:DescribeVolumes",
+      "ec2:DescribeVpcs",
+      "ec2:DetachVolume",
+      "ec2:GetPasswordData",
+      "ec2:ModifyImageAttribute",
+      "ec2:ModifyInstanceAttribute",
+      "ec2:ModifySnapshotAttribute",
+      "ec2:RegisterImage",
+      "ec2:RunInstances",
+      "ec2:StopInstances",
+      "ec2:TerminateInstances",
+    ]
+
+    resources = [
+      "*",
     ]
   }
 
@@ -75,11 +120,35 @@ data "aws_iam_policy_document" "code_build_access_document" {
     sid = "CodeBuildToCloudWatch"
 
     actions = [
-      "events:PutEvents"
+      "events:PutEvents",
     ]
 
     resources = [
-      "*"
+      "*",
+    ]
+  }
+
+  statement {
+    sid = "CodeBuildToSSM"
+
+    actions = [
+      "ssm:GetParameter",
+    ]
+
+    resources = [
+      "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/${lookup(var.env, data.aws_caller_identity.current.account_id)}/*",
+    ]
+  }
+
+  statement {
+    sid = "CodeBuildIAM"
+
+    actions = [
+      "iam:PassRole",
+    ]
+
+    resources = [
+      "*",
     ]
   }
 
